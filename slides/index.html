@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>辯論新手的資料課｜找資料、看資料、用資料</title>
+<style>
+  :root {
+    --paper: #f6efe2; --card: #fffdf7; --ink: #3f352c; --soft: #7b6d60;
+    --accent: #c4683f; --yellow: #f3d67a; --green: #c9d8a4; --blue: #c3dbe0; --pink: #f1c7bc;
+    --line: #e5dac6;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    font-size: 18px; line-height: 1.7;
+    display: flex; flex-direction: column;
+  }
+  .deck { flex: 1; display: flex; align-items: center; justify-content: center; padding: 16px; min-height: 0; }
+  .slide {
+    display: none; width: min(1000px, 100%); max-height: 100%; overflow-y: auto;
+    background: var(--card); border-radius: 10px; padding: 36px 48px 24px;
+    box-shadow: 0 2px 0 rgba(0,0,0,.04), 0 10px 26px rgba(63,53,44,.12);
+    position: relative;
+  }
+  .slide.active { display: flex; flex-direction: column; }
+  .slide::before {
+    content: ""; position: absolute; top: -10px; left: 50%; width: 110px; height: 24px;
+    transform: translateX(-50%) rotate(-1.5deg); background: rgba(196,104,63,.25);
+  }
+  .tag { color: var(--accent); font-weight: 700; font-size: .9rem; letter-spacing: .05em; }
+  h1 { font-size: 2.3rem; margin: .2em 0; line-height: 1.3; }
+  h2 { font-size: 1.7rem; margin: .1em 0 .5em; line-height: 1.35; }
+  h2 span { background: linear-gradient(transparent 60%, var(--yellow) 60%); padding: 0 4px; }
+  p { margin: .4em 0; }
+  ul, ol { margin: .3em 0; padding-left: 1.3em; }
+  li { margin: .25em 0; }
+  .body { flex: 1; }
+  .lead { color: var(--soft); font-size: 1.1rem; }
+  table { width: 100%; border-collapse: collapse; margin: .5em 0; font-size: .95rem; }
+  th, td { border: 1.5px solid var(--line); padding: 6px 10px; text-align: left; vertical-align: top; }
+  thead th { background: #eef4f5; }
+  tbody th { background: #faf5ec; white-space: nowrap; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin: .5em 0; }
+  .grid.three { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  .card { border-radius: 8px; padding: 12px 16px; }
+  .y { background: #fbefc6; } .g { background: #e6eed2; } .b { background: #e0edf0; } .p { background: #f8e2dc; }
+  .card b { display: block; font-size: 1.05rem; }
+  .big { font-size: 1.25rem; }
+  .note { border-left: 5px solid var(--accent); background: #fbeee8; padding: 8px 14px; border-radius: 0 8px 8px 0; margin: .6em 0; }
+  .ai { display: inline-block; font-size: .75rem; color: #fff; background: #8a7b6c; border-radius: 4px; padding: 0 6px; margin-right: 4px; vertical-align: 2px; }
+  .steps { display: flex; gap: 8px; flex-wrap: wrap; margin: .4em 0 .8em; }
+  .steps div { background: var(--accent); color: #fff; border-radius: 999px; padding: 4px 16px; font-weight: 700; }
+  .src { border-top: 1.5px dashed var(--line); margin-top: 16px; padding-top: 8px; font-size: .8rem; color: var(--soft); }
+  .src a { color: var(--soft); }
+  .bar { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 10px 16px 14px; }
+  .bar button {
+    font: inherit; border: none; background: var(--ink); color: var(--card);
+    border-radius: 999px; padding: 6px 18px; cursor: pointer;
+  }
+  .bar button:disabled { opacity: .35; cursor: default; }
+  .count { min-width: 70px; text-align: center; color: var(--soft); }
+  @media (max-width: 640px) {
+    body { font-size: 16px; }
+    .deck { padding: 10px; align-items: stretch; }
+    .slide { padding: 24px 18px 16px; }
+    h1 { font-size: 1.8rem; } h2 { font-size: 1.35rem; }
+    table { font-size: .82rem; } th, td { padding: 4px 6px; }
+    tbody th { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+<main class="deck">
+
+<!-- 每一頁的 data-wiki 寫這頁用到的 Wiki 頁面，頁尾的「來源」也是同一份 -->
+
+<section class="slide" data-wiki="wiki/index.md">
+  <div class="body">
+    <p class="tag">永平紫極演辯社｜社課補充</p>
+    <h1>辯論新手的資料課</h1>
+    <p class="lead big">找資料、看資料、用資料</p>
+    <p style="margin-top:1.5em">這份簡報的內容全部來自「辯論的資料使用 Wiki」，每一頁下面都有寫這頁用到 Wiki 的哪幾頁，點進去可以看到原文位置。</p>
+    <p class="lead">← → 鍵或下面的按鈕換頁</p>
+  </div>
+  <p class="src">來源：<a href="https://github.com/chungen0927-gif/debate-evidence-wiki/blob/main/wiki/index.md">wiki/index.md</a></p>
+</section>
+
+<section class="slide" data-wiki="wiki/concepts/why-evidence.md">
+  <div class="body">
+    <h2><span>為什麼辯論需要資料？</span></h2>
+    <p>立論有四步，資料就是第三步：</p>
+    <div class="steps"><div>主張</div><div>推論</div><div>實證</div><div>小結</div></div>
+    <ul>
+      <li>雙方的邏輯常常<b>都說得通</b>，這時裁判要靠證據決定採信誰。</li>
+      <li>證據比的是<b>品質</b>，不是數量的堆砌。</li>
+      <li>判準有一個功能是「明確舉證責任」：該拿出資料的一方拿不出來，就站不住。</li>
+      <li><span class="ai">AI 補充</span>資料不只是用來加分，有時候拿不出資料，那個爭點就輸了。</li>
+    </ul>
+  </div>
+  <p class="src">來源：<a href="https://github.com/chungen0927-gif/debate-evidence-wiki/blob/main/wiki/concepts/why-evidence.md">wiki/concepts/why-evidence.md</a></p>
+</section>
+
+<section class="slide" data-wiki="AGENTS.md">
+  <div class="body">
+    <h2><span>今天要學會三件事</span></h2>
+    <div class="grid three">
+      <div class="card y"><b>1. 資料要搭配著用</b>每種資料都有弱點，要成對使用、互相補位。</div>
+      <div class="card g"><b>2. 先拆題再找資料</b>先想清楚要證明什麼，不要一開始就亂搜尋。</div>
+      <div class="card b"><b>3. 會判斷一筆資料能不能用</b>看到一筆資料，知道它可不可信、能證明什麼。</div>
+    </div>
+  </div>
+  <p class="src">來源：<a href="https://github.com/chungen0927-gif/debate-evidence-wiki/blob/main/AGENTS.md">AGENTS.md</a>（訪談講師後寫的學習目標）</p>
+</section>
+
+<section class="slide" data-wiki="wiki/concepts/evidence-types.md">
+  <div class="body">
+    <p class="tag">目標一｜資料要搭配著用</p>
+    <h2><span>資料的三組類型</span></h2>
+    <table>
+      <thead><tr><th></th><th>這一邊</th><th>那一邊</th></tr></thead>
+      <tbody>
+        <tr><th>量化 vs 質性</th><td><b>量化（數字）</b><br>回答是多少的命題</td><td><b>質性（敘事）</b><br>回答怎麼樣的命題</td></tr>
+        <tr><th>通案 vs 個案</th><td><b>通案（普遍）</b><br>證明程度、普遍性；統計、研究、結構</td><td><b>個案（單一）</b><br>證明有無；新聞、判決、訪談</td></tr>
+        <tr><th>實證 vs 斷言</th><td><b>實證（方法）</b><br>會不會發生；研究方法（統計）</td><td><b>斷言（權威）</b><br>該不該、值不值；釋字、專家證言</td></tr>
+      </tbody>
+    </table>
+    <p class="lead">例：憲法法庭判決說生命權應受「最高度程序保障」，這是權威機關的判斷，屬於斷言。</p>
+  </div>
+  <p class="src">來源：<a href="https://github.com/chungen0927-gif/debate-evidence-wiki/blob/main/wiki/concepts/evidence-types.md">wiki/concepts/evidence-types.md</a></p>
+</section>
+
+<section class="slide" data-wiki="wiki/concepts/evidence-types.md wiki/concepts/attacking-evidence.md">
+  <div class="body">
+    <h2><span>每種資料都有弱點</span></h2>
+    <p>用了某種資料，就要準備被這樣追問：</p>
+    <div class="grid">
+      <div class="card y"><b>數字</b>裁判難以想像</div>
+      <div class="card y"><b>故事</b>容易被指控極端</div>
+      <div class="card g"><b>統計</b>數字背後的人呢？</div>
+      <div class="card g"><b>個案</b>有第二個嗎？</div>
+      <div class="card b"><b>研究</b>樣本？因果？方法？</div>
+      <div class="card b"><b>權威</b>證據在哪？憑什麼？</div>
+    </div>
+  </div>
+  <p class="src">來源：<a href="https://github.com/chungen0927-gif/debate-evidence-wiki/blob/main/wiki/concepts/evidence-types.md">wiki/concepts/evidence-types.md</a>、<a href="https://github.com/chungen0927-gif/debate-evidence-wiki/blob/main/wiki/concepts/attacking-evidence.md">wiki/concepts/attacking-evidence.md</a></p>
+</section>
+
+<section class="slide" data-wiki="wiki/concepts/evidence-combination.md">
+  <div class="body">
+    <h2><span>所以要成對使用</span></h2>
+    <div class="grid three">
+      <div class="card y"><b>量化＋質性</b>有數字也有面孔</div>
+      <div class="card g"><b>通案＋個案</b>有程度也有實例</div>
+      <div class="card b"><b>實證＋斷言</b>會發生也值得在乎</div>
+    </div>
+    <p class="note">外部教材叫這種做法「補強證明」：用不同性質的證據支持同一件事會更有力，而且「数个部分证据结合使用可以产生巨大力量。」</p>
+  </div>
+  <p class="src">來源：<a href="https://github.com/chungen0927-gif/debate-evidence-wiki/blob/main/wiki/concepts/evidence-combination.md">wiki/concepts/evidence-combination.md</a></p>
+</section>
+
+<section class="slide" data-wiki="wiki/examples/death-penalty.md wiki/concepts/evidence-combination.md">
+  <div class="body">
+    <h2><span>範例：「我國應廢除死刑」的資料配置</span></h2>
+    <table>
+      <thead><tr><th>任務</th><th>資料</th><th>想說的事</th><th>類型</th></tr></thead>
+      <tbody>
+        <tr><th>①價值</th><td>113憲判8</td><td>生命權應受「最高度程序保障」，誤判有「不可回復之生命損失」</td><td>斷言</td></tr>
+        <tr><th>②實害</th><td>誤判率研究</td><td>誤判存在而且不罕見</td><td>量化實證</td></tr>
+        <tr><th>③結構</th><td>誤判成因研究</td><td>改革能減緩但不能歸零</td><td>專家推論</td></tr>
+        <tr><th>④渲染</th><td>徐自強案</td><td>不可逆，究竟有多委屈</td><td>質性個案</td></tr>
+      </tbody>
+    </table>
+    <p class="lead"><span class="ai">AI 補充</span>①的說法改用判決原文；社課簡報原本寫「生命權最高」，判決原文沒有這幾個字（見第 11 頁）。</p>
+    <p><b>截長補短</b>：任何一筆被攻擊，都能接到另一筆。例如對方說「只是個案」，就接回②，因為那裡已證普遍。</p>
+  </div>
+  <p class="src">來源：<a href="https://github.com/chungen0927-gif/debate-evidence-wiki/blob/main/wiki/examples/death-penalty.md">wiki/examples/death-penalty.md</a>、<a href="https://github.com/chungen0927-gif/debate-evidence-wiki/blob/main/wiki/concepts/evidence-combination.md">wiki/concepts/evidence-combination.md</a></p>
+</section>
+
+<section class="slide" data-wiki="wiki/concepts/research-steps.md">
+  <div class="body">
+    <p class="tag">目標二｜先拆題再找資料</p>
+    <h2><span>找資料的四個步驟</span></h2>
+    <div class="steps"><div>①拆題</div><div>②關鍵字</div><div>③資料庫</div><div>④篩選</div></div>
+    <p>例：「世界糧食計劃署的糧食援助對受捐助國 利大於弊／弊大於利」先拆成四塊：</p>
+    <table>
+      <tbody>
+        <tr><th>特定機構</th><td>誰出錢？誰決策？組織目標？</td></tr>
+        <tr><th>特定方案</th><td>實物？現金？兌換券？food aid? food assistance?</td></tr>
+        <tr><th>特定視角</th><td>只有受捐助國的利弊，捐助國的不算</td></tr>
+        <tr><th>評價比較</th><td>利弊各有哪些？強度多大？比較的共同指標？</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="src">來源：<a href="https://github.com/chungen0927-gif/debate-evidence-wiki/blob/main/wiki/concepts/research-steps.md">wiki/concepts/research-steps.md</a></p>
+</section>
+
+<section class="slide" data-wiki="wiki/concepts/research-steps.md">
+  <div class="body">
+    <h2><span>關鍵字和資料庫</span></h2>
+    <div class="grid three">
+      <div class="card y"><b>辯題關鍵字</b>辯題去掉「我國」、「設立/廢除」與「應」</div>
+      <div class="card g"><b>萬用關鍵字</b>研究、統計、調查、實證、判決、法規、理論、釋字、個案、訪談</div>
+      <div class="card b"><b>進階關鍵字</b>從資料裡得到的新關鍵字，例如再審、應報、非常上訴、自白</div>
+    </div>
+    <p>萬用關鍵字要和另外兩類搭配使用。圖書館的建議也類似：先列核心關鍵字，再用<b>近義詞</b>擴展。</p>
+    <p><b>資料庫</b>：AI、google scholar、華藝、國圖、碩博論、國科會、全國法規資料庫、National Library</p>
+  </div>
+  <p class="src">來源：<a href="https://github.com/chungen0927-gif/debate-evidence-wiki/blob/main/wiki/concepts/research-steps.md">wiki/concepts/research-steps.md</a></p>
+</section>
+
+<section class="slide" data-wiki="wiki/concepts/evaluating-evidence.md">
+  <div class="body">
+    <p class="tag">目標三｜會判斷資料能不能用</p>
+    <h2><span>挑個好資料</span></h2>
+    <div class="grid">
+      <div class="card y"><b>社課的八個條件</b>準確、權威、嶄新、現地、完整、直接、跨域、簡明</div>
+      <div class="card b"><b>對照：圖書館的 CRAAP</b>即時性、相關性、權威性、精確性、目的性</div>
+    </div>
+    <p>拿這個 Wiki 自己收的一篇來檢查：〈我該作質化論文還是量化論文？〉</p>
+    <ul>
+      <li>即時性：2016 年的文章。</li>
+      <li>目的性：文末在推銷作者自己的書。</li>
+      <li>相關性：主要在講寫論文，跟辯論的關係比較間接。</li>
+    </ul>
+    <p class="lead"><span class="ai">AI 補充</span>所以它只當對照，不當主要依據。</p>
+  </div>
+  <p class="src">來源：<a href="https://github.com/chungen0927-gif/debate-evidence-wiki/blob/main/wiki/concepts/evaluating-evidence.md">wiki/concepts/evaluating-evidence.md</a></p>
+</section>
+
+<section class="slide" data-wiki="wiki/concepts/evaluating-evidence.md wiki/examples/death-penalty.md wiki/log.md">
+  <div class="body">
+    <h2><span>回去看原文：做這個 Wiki 時踩到的三個坑</span></h2>
+    <div class="grid three">
+      <div class="card p"><b>1. 摘要多了一段</b>用摘要工具讀一篇文章，摘要裡有一段原文根本沒有的整理。</div>
+      <div class="card p"><b>2. 意見書不是判決</b>人權會那頁標題是死刑案，類別卻是「言詞辯論意見書」。</div>
+      <div class="card p"><b>3. 字對不上</b>社課簡報寫「生命權最高」，判決原文是「最高度程序保障」，而且結論是有條件合憲。</div>
+    </div>
+    <p class="note">上台說「某某說了什麼」，一定要對得上原文，不然會被對方抓「事實錯誤」。</p>
+  </div>
+  <p class="src">來源：<a href="https://github.com/chungen0927-gif/debate-evidence-wiki/blob/main/wiki/concepts/evaluating-evidence.md">wiki/concepts/evaluating-evidence.md</a>、<a href="https://github.com/chungen0927-gif/debate-evidence-wiki/blob/main/wiki/examples/death-penalty.md">wiki/examples/death-penalty.md</a>、<a href="https://github.com/chungen0927-gif/debate-evidence-wiki/blob/main/wiki/log.md">wiki/log.md</a></p>
+</section>
+
+<section class="slide" data-wiki="wiki/concepts/attacking-evidence.md">
+  <div class="body">
+    <h2><span>反過來：攻擊對方的資料</span></h2>
+    <p>反駁的五個層次裡，最後一層「事實錯誤」就是攻擊對方的資料。</p>
+    <p><b>削弱一份研究，說服力由強到弱：</b></p>
+    <ol>
+      <li>對立研究的反證</li>
+      <li>專家明確指出研究有缺陷</li>
+      <li>專家一般地提到研究有缺陷</li>
+      <li>辯手明確指出研究有缺陷</li>
+      <li>辯手一般地提到研究有缺陷</li>
+    </ol>
+    <p><b>否定性證據</b>：用「找不到某种证据」當證據（原文簡體），例如人權會主張「死刑並無嚇阻實證」。</p>
+    <p><span class="ai">AI 補充</span>可以問：找的範圍夠不夠？是找不到，還是研究結果互相矛盾？</p>
+  </div>
+  <p class="src">來源：<a href="https://github.com/chungen0927-gif/debate-evidence-wiki/blob/main/wiki/concepts/attacking-evidence.md">wiki/concepts/attacking-evidence.md</a></p>
+</section>
+
+<section class="slide" data-wiki="wiki/concepts/research-steps.md AGENTS.md">
+  <div class="body">
+    <h2><span>小試身手</span></h2>
+    <p class="big">「我國威權象徵處置採全面移除／保留註記更有利推動轉型正義」</p>
+    <ol>
+      <li>拆題：題目可以拆成哪幾塊？每塊要問什麼？</li>
+      <li>列出辯題關鍵字，每個搭配兩個萬用關鍵字。</li>
+      <li>找兩筆<b>不同類型</b>的資料，說說它們怎麼搭配。</li>
+      <li>用挑個好資料的條件檢查這兩筆。</li>
+    </ol>
+    <p class="lead"><span class="ai">AI 補充</span>以上四個活動步驟是依 Wiki 內容設計的，題目來自社課簡報。</p>
+    <p><b>重點回顧</b>：資料要搭配著用 → 先拆題再找資料 → 會判斷資料能不能用</p>
+  </div>
+  <p class="src">來源：<a href="https://github.com/chungen0927-gif/debate-evidence-wiki/blob/main/wiki/concepts/research-steps.md">wiki/concepts/research-steps.md</a>、<a href="https://github.com/chungen0927-gif/debate-evidence-wiki/blob/main/AGENTS.md">AGENTS.md</a></p>
+</section>
+
+</main>
+
+<nav class="bar">
+  <button id="prev" type="button">← 上一頁</button>
+  <span class="count" id="count"></span>
+  <button id="next" type="button">下一頁 →</button>
+</nav>
+
+<script>
+  const slides = [...document.querySelectorAll('.slide')];
+  let i = Math.max(0, Math.min(slides.length - 1, (parseInt(location.hash.slice(1), 10) || 1) - 1));
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('active', k === i));
+    document.getElementById('count').textContent = (i + 1) + ' / ' + slides.length;
+    document.getElementById('prev').disabled = i === 0;
+    document.getElementById('next').disabled = i === slides.length - 1;
+    history.replaceState(null, '', '#' + (i + 1));
+  }
+  document.getElementById('prev').onclick = () => show(i - 1);
+  document.getElementById('next').onclick = () => show(i + 1);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(i - 1); }
+  });
+  let x0 = null;
+  document.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 60) show(i + (dx < 0 ? 1 : -1));
+    x0 = null;
+  });
+  show(i);
+</script>
+</body>
+</html>
