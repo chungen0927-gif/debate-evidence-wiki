@@ -23,3 +23,4 @@
 | raw/05 | 憲法法庭 113 年憲判字第 8 號判決 | [judgment-113-8](sources/judgment-113-8.md) |
 | raw/06 | 哇賽！心理學〈我該作質化論文還是量化論文？〉 | [onyourpsy-qual-quant](sources/onyourpsy-qual-quant.md) |
 | raw/07 | 國家人權委員會死刑案意見書 | [nhrc-opinion](sources/nhrc-opinion.md) |
+| raw/08 | 行銷資料科學〈質化研究與量化研究的差異〉 | [medium-qual-quant](sources/medium-qual-quant.md) |
